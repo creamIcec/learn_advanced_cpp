@@ -38,7 +38,7 @@ int main(){
 ```
 
 我们将会得到一个运行时错误:
-![[Pasted image 20250402160045.png]]
+![Exit with Code 0xC0000094](./images/exit_code.png)
 在对应的网站中, 我们可以找到`0xC0000094`错误代码对应的是**除零错误**。链接:
 
 [NT Status Values](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55)
