@@ -38,7 +38,9 @@ int main(){
 ```
 
 我们将会得到一个运行时错误:
+
 ![Exit with Code 0xC0000094](./images/exit_code.png)
+
 在对应的网站中, 我们可以找到`0xC0000094`错误代码对应的是**除零错误**。链接:
 
 [NT Status Values](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55)
@@ -91,6 +93,58 @@ $ cat /usr/include/sysexits.h
 #define EX__MAX 78      /* maximum listed value */
 ```
 
-那么，这些代码除了给我们人使用以外，在程序的自动化执行过程中(例如这个返回错误码的进程是另一个进程的子进程，另一个进程获得了这个错误码)，有哪些用途呢？
+`Linux`中使用两者的方法和`Windows`类似，都是`exit()`和`return`。
+
+### 如何获得返回码
+
+那么，这些代码除了给我们人使用以外，在程序的自动化执行过程中(例如这个返回错误码的进程是另一个进程的子进程，另一个进程获得了这个错误码)，该如何使用呢？这个仍然是随系统而异。
+
+#### Windows
+
+我们可以用`%errorlevel%`来获取上一条命令的运行结果。使用方法如下:
+
+我们首先编译下面的程序到`test.exe`:
+
+```c++
+#include <cstdlib>
+
+int main(){
+	exit(1);
+}
+```
+
+然后，我们在命令行中运行这个`text.exe`:
+
+```shell
+> test.exe
+< 
+> echo %errorlevel%
+< 1 
+```
+
+可以看到，`%errorlevel%`成功捕捉到了上一个运行的指令`text.exe`返回的错误码。
+同理，对于上面的**除零报错**程序，我们也可以正确捕捉返回值(这里我们假设输出的可执行文件名字叫`divide_by_zero.exe`):
+
+```shell
+> divide_by_zero.exe
+(光标闪烁并停顿一段时间, 表示程序可能遇到执行错误)
+<
+> echo %errorlevel%
+< -1073741676
+```
+
+正如我们上面所说的, `-1073741676`是`0xC0000094`的十进制表示，也就是说，我们的`%errorlevel%`也成功捕捉到了这个错误返回码。
+
+#### Linux
+
+在`Linux`中，我们可以用类似的机制获得错误码，通过指令变量`$?`:
+
+```bash
+echo $?
+```
+
+这里`$?`的工作机制和`%errorlevel%`是一样的，都是在上一个指令结束后执行，就可以得到上一个指令的退出代码; 只不过代码的规范和含义不同，参考对应的代码列表即可。
+
+
 
 
