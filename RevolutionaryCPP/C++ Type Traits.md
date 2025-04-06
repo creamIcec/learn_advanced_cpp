@@ -46,7 +46,7 @@ int main(){
 auto result_ptr = lib_func();
 ```
 
-接下来，我们想将这个`result_ptr`指向的对象/值**复制**一份到某个容器中备用(比如缓存), 我们就可以使用`decltype`(为了简化说明问题，这里假`lib_func`返回的对象中有一个`copy`方法，可以取得这个对象的一个副本:
+接下来，我们想将这个`result_ptr`指向的对象/值**复制**一份到某个容器中备用(比如缓存), 我们就可以使用`decltype`(为了简化说明问题，这里假设`lib_func`返回的对象中有一个`copy`方法，可以取得这个对象的一个副本:
 
 ```c++
 decltype(*resuplt_ptr) = result_ptr->copy();
@@ -127,9 +127,11 @@ bool is_eq(T&&a, T&&b)
 
 其中提到，`std::string`不是一个类，而是一个类型的简写别名，原形是
 ```c++
-std::basic_string<char, std::char_traits<char>>`。
+std::basic_string<char, std::char_traits<char>>
 ```
+
 这里面的`std::char_traits`就是一个Type Traits。这里它类似于一个flag, 用于指示如何处理这个字符串: 使用符合`char`特性的方法。文章中提到，我们可以自定义一个特性, 比如*大小写不敏感(ci_traits)*, 并使用
+
 ```c++
 using ci_string = std::basic_string<char, ci_traits>
 ```

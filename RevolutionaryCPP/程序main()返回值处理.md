@@ -61,11 +61,13 @@ https://jpassing.com/2007/08/20/error-codes-win32-vs-hresult-vs-ntstatus/
 
 同时，`Linux`也在`sysexits.h`头文件中定义了一套返回码:
 
-```
+```bash
 $ find /usr -name sysexits.h
 /usr/include/sysexits.h
 $ cat /usr/include/sysexits.h
+```
 
+```c++
 /*
  * Copyright (c) 1987, 1993
  *  The Regents of the University of California.  All rights reserved.
